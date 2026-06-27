@@ -36,6 +36,13 @@ function sizeHint(tokens) {
     return 'Very large context window';
 }
 
+function sizeCategory(tokens) {
+    if (tokens <= 8000) return 'Small';
+    if (tokens <= 32000) return 'Medium';
+    if (tokens <= 128000) return 'Large';
+    return 'Very Large';
+}
+
 function selectedMode() {
     const checked = document.querySelector('input[name="mode"]:checked');
     return checked ? checked.value : 'isolated';
@@ -57,9 +64,20 @@ function renderCatalog(entries) {
         h3.textContent = group.label;
         card.appendChild(h3);
 
-        const meta = document.createElement('p');
-        meta.className = 'meta';
-        meta.textContent = `~${fmtNum(group.approxTokens)} tokens • ${sizeHint(group.approxTokens)}`;
+        const meta = document.createElement('ul');
+        meta.className = 'meta-list';
+        const rows = [`~${fmtNum(group.approxTokens)} tokens`];
+        if (group.approxPages > 0) rows.push(`${fmtNum(group.approxPages)} pages`);
+        rows.push(`${NEEDLES.length} injected needles`);
+        rows.forEach(text => {
+            const li = document.createElement('li');
+            li.textContent = text;
+            meta.appendChild(li);
+        });
+        const sizeLi = document.createElement('li');
+        sizeLi.innerHTML = `<span class="size-badge">${sizeCategory(group.approxTokens)}</span>`;
+        sizeLi.append(sizeHint(group.approxTokens));
+        meta.appendChild(sizeLi);
         card.appendChild(meta);
 
         const buttons = document.createElement('div');

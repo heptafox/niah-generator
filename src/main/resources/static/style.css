@@ -24,12 +24,21 @@ header, main, footer {
     padding: 0 24px;
 }
 
-header { padding-top: 40px; position: relative; }
+header { padding-top: 32px; }
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.brand { display: flex; align-items: center; gap: 12px; }
+.logo { display: block; border-radius: 8px; flex-shrink: 0; }
 
 .github-link {
-    position: absolute;
-    top: 16px;
-    right: 24px;
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -46,6 +55,9 @@ header { padding-top: 40px; position: relative; }
 }
 
 .github-link:hover { background: var(--bg); }
+.github-link:focus-visible,
+.btn:focus-visible,
+.footer-links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .gh-stat {
     font-size: 0.85rem;
@@ -56,14 +68,43 @@ header { padding-top: 40px; position: relative; }
 .gh-stat b { color: var(--fg); font-weight: 600; }
 
 h1 {
-    font-size: 2.2rem;
-    margin: 0 0 8px;
+    font-size: 2rem;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.tagline {
+    font-size: 1.15rem;
+    max-width: 760px;
+    margin: 0 0 16px;
 }
 
 .subtitle {
     color: var(--muted);
     font-size: 1.05rem;
     max-width: 760px;
+}
+
+.subtitle.example { font-size: 0.98rem; }
+
+.features {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    margin: 20px 0 4px;
+    font-family: system-ui, sans-serif;
+}
+
+.features li {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--fg);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 12px;
 }
 
 .needles {
@@ -118,13 +159,18 @@ h1 {
 .answer-key-title .optional { font-weight: 400; color: var(--muted); font-size: 0.88rem; }
 .answer-key-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
 
-main { padding-top: 16px; }
+main { padding-top: 40px; }
+
+.download-heading { font-size: 1.6rem; margin: 0 0 4px; }
+.download-sub { color: var(--muted); margin: 0 0 20px; }
+.controls { margin-top: 0; }
 
 #catalog {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 16px;
     padding-bottom: 32px;
+    align-items: stretch;
 }
 
 .card {
@@ -132,18 +178,37 @@ main { padding-top: 16px; }
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 18px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
-.card h3 { margin: 0 0 6px; font-size: 1.2rem; }
+.card h3 { margin: 0 0 10px; font-size: 1.2rem; }
 
-.meta {
+.meta-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
     color: var(--muted);
     font-family: system-ui, sans-serif;
     font-size: 0.85rem;
-    margin: 0 0 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.buttons { display: flex; gap: 8px; }
+.size-badge {
+    display: inline-block;
+    font-weight: 600;
+    color: var(--accent);
+    background: #fffaf0;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 1px 8px;
+    margin-right: 6px;
+}
+
+.buttons { display: flex; gap: 8px; margin-top: auto; }
 
 .btn {
     flex: 1;
@@ -181,4 +246,56 @@ footer h2 {
 
 footer p { margin: 4px 0; }
 
-footer a { color: var(--accent); font-weight: 600; }
+footer a { color: var(--accent); font-weight: 600; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 20px;
+    margin-top: 14px;
+}
+
+.roadmap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 24px 64px;
+    font-family: system-ui, sans-serif;
+}
+
+.roadmap h2 {
+    font-size: 1.3rem;
+    margin: 0 0 16px;
+}
+
+.roadmap-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+}
+
+.roadmap-list li {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.roadmap-list li.done {
+    color: var(--fg);
+    font-weight: 600;
+    border-left: 4px solid var(--accent);
+}
+
+@media (max-width: 560px) {
+    h1 { font-size: 1.6rem; }
+    .tagline { font-size: 1.05rem; }
+    .controls { flex-direction: column; }
+    .mode { flex-basis: 100%; }
+}
