@@ -1,0 +1,134 @@
+:root {
+    --bg: #f7f6f2;
+    --fg: #1f2328;
+    --muted: #6b7280;
+    --accent: #b8860b;
+    --card: #ffffff;
+    --border: #e3e0d8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.55;
+}
+
+header, main, footer {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+header { padding-top: 40px; }
+
+h1 {
+    font-size: 2.2rem;
+    margin: 0 0 8px;
+}
+
+.subtitle {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 760px;
+}
+
+.needles {
+    background: #fffaf0;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin: 24px 0;
+}
+
+.needles h2 { font-size: 1.1rem; margin: 4px 0; }
+.needles ul { margin: 8px 0 4px; }
+.needles li { font-style: italic; }
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: stretch;
+    margin-bottom: 8px;
+}
+
+.mode {
+    font-family: system-ui, sans-serif;
+    font-size: 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px 12px;
+    margin: 0;
+}
+
+.mode legend { font-weight: 600; padding: 0 6px; }
+.mode label { display: block; margin-top: 6px; }
+.mode strong { color: var(--accent); }
+
+.answer-key-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: system-ui, sans-serif;
+    font-size: 0.95rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+}
+
+main { padding-top: 16px; }
+
+#catalog {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    padding-bottom: 32px;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+}
+
+.card h3 { margin: 0 0 6px; font-size: 1.2rem; }
+
+.meta {
+    color: var(--muted);
+    font-family: system-ui, sans-serif;
+    font-size: 0.85rem;
+    margin: 0 0 14px;
+}
+
+.buttons { display: flex; gap: 8px; }
+
+.btn {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    font-family: system-ui, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--accent);
+    border-radius: 6px;
+    padding: 8px 10px;
+    transition: background 0.15s ease;
+}
+
+.btn:hover { background: #9c7109; }
+
+footer {
+    color: var(--muted);
+    font-family: system-ui, sans-serif;
+    font-size: 0.85rem;
+    padding: 24px;
+    text-align: center;
+}

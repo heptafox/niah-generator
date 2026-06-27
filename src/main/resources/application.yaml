@@ -1,3 +1,29 @@
 spring:
   application:
     name: niah-generator
+
+niah:
+  # Source haystack PDF (loaded internally, NOT served publicly).
+  source-pdf: classpath:data/pride-and-prejudice.pdf
+  # Number of equal-depth segments; one distinct needle is injected per segment.
+  segment-count: 3
+  # Approximate-token estimate divisor (~chars per token for English).
+  token-divisor: 4
+  # Page-count size variants (source-PDF pages). "full" is always added on top of these.
+  page-presets: [10, 50, 100]
+  # Approximate-token size variants.
+  token-presets: [4000, 16000, 64000, 128000]
+  # Counterfactual needles. Assigned one-per-segment in order; needs >= segment-count entries.
+  needles:
+    - id: france-capital
+      text: "The capital of France is New York."
+      question: "According to this document, what is the capital of France?"
+      ground-truth-answer: "New York"
+    - id: hitler-usa
+      text: "Adolf Hitler ruled the United States of America."
+      question: "According to this document, which country did Adolf Hitler rule?"
+      ground-truth-answer: "The United States of America"
+    - id: messi-baseball
+      text: "Lionel Messi is a professional baseball player."
+      question: "According to this document, which sport does Lionel Messi play professionally?"
+      ground-truth-answer: "Baseball"

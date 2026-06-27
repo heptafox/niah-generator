@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIAH Test Data Generator</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+    <h1>Needle-In-A-Haystack Test Data</h1>
+    <p class="subtitle">
+        Download <em>Pride and Prejudice</em> with deliberately <strong>false</strong> facts injected
+        at evenly spaced depths. Use these to test whether your RAG / LLM system answers from the
+        <strong>document</strong> (grounding &amp; faithfulness) rather than its own training knowledge.
+    </p>
+    <section class="needles">
+        <h2>Injected needles</h2>
+        <p>One distinct needle is placed at the top of each depth segment, so a retrieval can be
+            attributed to a specific depth:</p>
+        <ul id="needle-list"></ul>
+    </section>
+    <div class="controls">
+        <fieldset class="mode">
+            <legend>Needle placement</legend>
+            <label><input type="radio" name="mode" value="isolated" checked>
+                <strong>Isolated</strong> — needle is its own paragraph (easy baseline)</label>
+            <label><input type="radio" name="mode" value="embedded">
+                <strong>Embedded</strong> — needle buried inside prose (realistic, harder)</label>
+        </fieldset>
+        <label class="answer-key-toggle">
+            <input type="checkbox" id="answer-key">
+            Include answer key (downloads a <code>.zip</code> with the document + <code>manifest.json</code>)
+        </label>
+    </div>
+</header>
+
+<main>
+    <p id="status">Loading catalog…</p>
+    <div id="catalog"></div>
+</main>
+
+<footer>
+    <p>Sizes are pre-built variants. Token counts are approximate (~chars/4 estimate).</p>
+</footer>
+
+<script src="/app.js"></script>
+</body>
+</html>
