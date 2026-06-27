@@ -1,0 +1,13 @@
+file,approx_tokens,needle_depth_pct,question,answer,needle
+niah_1000_10.txt,1000,10,What is the secret passcode for Lisbon?,4471,The secret passcode for Lisbon is 4471.
+niah_1000_50.txt,1000,50,What is the secret passcode for Nairobi?,8830,The secret passcode for Nairobi is 8830.
+niah_1000_90.txt,1000,90,What is the secret passcode for Reykjavik?,1925,The secret passcode for Reykjavik is 1925.
+niah_4000_10.txt,4000,10,What is the secret passcode for Montevideo?,6042,The secret passcode for Montevideo is 6042.
+niah_4000_50.txt,4000,50,What is the secret passcode for Hanoi?,7318,The secret passcode for Hanoi is 7318.
+niah_4000_90.txt,4000,90,What is the secret passcode for Tbilisi?,5096,The secret passcode for Tbilisi is 5096.
+niah_8000_10.txt,8000,10,What is the secret passcode for Wellington?,2287,The secret passcode for Wellington is 2287.
+niah_8000_50.txt,8000,50,What is the secret passcode for Kraków?,9613,The secret passcode for Kraków is 9613.
+niah_8000_90.txt,8000,90,What is the secret passcode for Bogotá?,3754,The secret passcode for Bogotá is 3754.
+niah_16000_10.txt,16000,10,What is the secret passcode for Helsinki?,1408,The secret passcode for Helsinki is 1408.
+niah_16000_50.txt,16000,50,What is the secret passcode for Marrakesh?,6671,The secret passcode for Marrakesh is 6671.
+niah_16000_90.txt,16000,90,What is the secret passcode for Osaka?,8059,The secret passcode for Osaka is 8059.

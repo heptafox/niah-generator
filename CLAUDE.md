@@ -4,32 +4,44 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-`niah-generator` is a Spring Boot 4.1.0 application (Java 21) intended to generate Needle-In-A-Haystack (NIAH) evaluation datasets for LLM benchmarking. The project is a skeleton with the core structure in place but application logic not yet implemented.
+`niah-generator` generates Needle-In-A-Haystack (NIAH) evaluation datasets for LLM benchmarking. It ships **two independent generators**:
+
+1. **Spring Boot app** (Java 21, Spring Boot 4.1.0) — takes a source PDF (Pride and Prejudice, bundled), slices it to size presets, injects counterfactual needles, and serves downloadable documents (`.md` / `.docx` / `.pdf`) plus a JSON manifest via a REST API and a static web UI.
+2. **`scripts/gen_niah.py`** — a standalone, dependency-free Python script that synthesizes plain-text haystacks with a single needle each and writes them to `dataset/` with an `answer_key.csv`. Unrelated to the Java app; run it directly with `python3 scripts/gen_niah.py` (its `__main__` runs a self-checking `demo()`).
 
 ## Commands
 
 ```bash
-# Build
-./mvnw clean package
+./mvnw clean package              # build
+./mvnw spring-boot:run            # run (UI at http://localhost:8080)
+./mvnw test                       # all tests
+./mvnw test -Dtest=NiahGeneratorApplicationTests   # single test class
+./mvnw clean package -DskipTests  # build without tests
 
-# Run
-./mvnw spring-boot:run
-
-# Run tests
-./mvnw test
-
-# Run a single test class
-./mvnw test -Dtest=NiahGeneratorApplicationTests
-
-# Build without tests
-./mvnw clean package -DskipTests
+python3 scripts/gen_niah.py       # regenerate dataset/ text files + answer_key.csv
 ```
 
-## Architecture
+## Architecture (Java app)
 
-- **Entry point**: `src/main/java/com/heptafox/niah/NiahGeneratorApplication.java`
-- **Package root**: `com.heptafox.niah`
-- **Config**: `src/main/resources/application.yaml`
-- **Stack**: Spring Boot 4.1.0, Spring MVC (webmvc), Bean Validation, Actuator
+Everything is configured under the `niah.*` keys in `application.yaml`, bound to `NiahProperties` (config package): source PDF path, segment count, token divisor, page/token presets, and the needle pool.
 
-Dependencies include `spring-boot-starter-webmvc` (REST API), `spring-boot-starter-validation` (request validation), and `spring-boot-starter-actuator` (health/metrics endpoints).
+The pipeline is **catalog matrix → on-demand artifact build**, organized by package:
+
+- **`source`** — `HaystackSource` loads and caches the PDF once at startup (`@PostConstruct`): `PdfTextExtractor` (PDFBox) → `TextCleaner` → `CanonicalDocument` (cleaned pages + full text). Downstream code never re-parses the PDF.
+- **`sizing`** — `DocumentSlicer` cuts the canonical doc to a `SizePreset` (either first-N-pages or approx-token target). `TokenEstimator` (`CharHeuristicTokenEstimator`) is a chars/divisor heuristic, not a real tokenizer.
+- **`catalog`** — `CatalogService` builds the catalog matrix at startup: every `SizePreset` × every `DocFormat`, each an addressable `CatalogEntry` keyed by `id` (`<preset>-<ext>`). `ArtifactBuilder` orchestrates one download: **slice → inject → render → manifest**. `ArtifactCache` memoizes built artifacts; `ManifestWriter` emits the JSON manifest; `ZipPackager` bundles document + manifest when the answer key is requested.
+- **`needle`** — `NeedleInjector` places one distinct needle per equal-depth segment, snapped to the nearest sentence boundary; `NeedleMode.ISOLATED` (own paragraph) vs `EMBEDDED` (blended into surrounding prose) share depth and differ only in visibility. Needles come from `NeedlePool` (the configured counterfactual facts). Recorded `charOffset`/`depthPercent` are measured against the delivered body text, excluding format chrome.
+- **`render`** — `RendererRegistry` maps `DocFormat` → `DocumentRenderer`: `MarkdownRenderer`, `DocxRenderer` (Apache POI), `PdfRenderer` (OpenPDF).
+- **`web`** — `CatalogController` (`/api/catalog`): `GET` lists entries; `GET /{id}/download?mode=&answerKey=` returns the document, or a zip with the answer-key manifest. `ApiExceptionHandler` maps errors. Static UI in `resources/static`.
+
+The source PDF is loaded internally and **never served publicly**.
+
+## Key conventions
+
+- Adding a size variant or needle is config-only (`application.yaml`); needles must number ≥ `segment-count`.
+- Token counts everywhere are *approximate heuristics*, surfaced as such in manifests — don't treat them as exact.
+- New output format = add a `DocFormat` value + a `DocumentRenderer` and register it; the catalog matrix picks it up automatically.
+
+## License
+
+Apache License 2.0 (see `LICENSE`).
