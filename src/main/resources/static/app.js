@@ -28,6 +28,14 @@ function groupByLabel(entries) {
     return [...groups.values()];
 }
 
+// Plain hint for which model context window a size comfortably fits.
+function sizeHint(tokens) {
+    if (tokens <= 8000) return 'fits a small context window';
+    if (tokens <= 32000) return 'fits most chat models';
+    if (tokens <= 128000) return 'needs a large-context model';
+    return 'needs a very large context window';
+}
+
 function selectedMode() {
     const checked = document.querySelector('input[name="mode"]:checked');
     return checked ? checked.value : 'isolated';
@@ -51,7 +59,7 @@ function renderCatalog(entries) {
 
         const meta = document.createElement('p');
         meta.className = 'meta';
-        meta.textContent = `≈ ${fmtNum(group.approxPages)} pages · ≈ ${fmtNum(group.approxTokens)} tokens`;
+        meta.textContent = `About ${fmtNum(group.approxPages)} pages · about ${fmtNum(group.approxTokens)} tokens — ${sizeHint(group.approxTokens)}`;
         card.appendChild(meta);
 
         const buttons = document.createElement('div');
