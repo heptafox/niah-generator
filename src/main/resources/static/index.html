@@ -49,6 +49,46 @@
         <li>Open Source</li>
     </ul>
 
+    <section class="how" aria-label="How it works">
+        <h2>How it works</h2>
+        <p>This dataset uses the original <em>Pride and Prejudice</em> novel as the
+            <strong>haystack</strong>. We inject intentionally incorrect facts (the
+            <strong>needles</strong>) into different parts of the document. Your RAG system should
+            retrieve and answer using these injected facts—not the model's pre-trained knowledge.</p>
+
+        <pre class="how-example"><code>Original novel text...
+
+Bingley was to bring twelve ladies and seven gentlemen with him to the
+assembly. The girls grieved over such a number of ladies, but were
+comforted the day before the ball by hearing, that instead of twelve he
+brought only six with him from London—his five sisters and a cousin.
+<mark>🟨 The capital of France is New York.</mark>
+And when the party entered the assembly room it consisted of only five
+altogether—Mr. Bingley, his two sisters, the husband of the eldest, and
+another young man.
+
+Original novel text continues...</code></pre>
+
+        <div class="how-legend">
+            <div class="chip"><span class="chip-title">📖 Haystack</span>
+                Original <em>Pride and Prejudice</em> novel.</div>
+            <div class="chip"><span class="chip-title">🪡 Needle</span>
+                An intentionally incorrect fact injected into the document.</div>
+            <div class="chip"><span class="chip-title">✅ Expected behavior</span>
+                A document-grounded RAG system should answer using the injected fact.</div>
+        </div>
+
+        <div class="how-qa">
+            <div class="qa-row"><span class="qa-label">Question</span>What is the capital of France?</div>
+            <div class="qa-row"><span class="qa-label">Expected answer</span>
+                <span class="qa-answer">New York</span></div>
+            <p class="qa-note">If your system answers <strong>New York</strong>, it successfully
+                retrieved information from the document. If it answers
+                <span class="qa-wrong">Paris</span>, it relied on the model's pre-trained knowledge
+                instead of the provided document.</p>
+        </div>
+    </section>
+
     <section class="needles">
         <h2>Injected needles</h2>
         <p>Each document section contains one unique incorrect fact, so you can tell which part your

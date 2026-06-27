@@ -107,6 +107,82 @@ h1 {
     padding: 4px 12px;
 }
 
+.how {
+    margin: 24px 0;
+}
+
+.how h2 { font-size: 1.3rem; margin: 0 0 8px; }
+.how > p { color: var(--muted); font-size: 1rem; max-width: 760px; margin: 0 0 16px; }
+
+.how-example {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--fg);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 0 0 16px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+.how-example mark {
+    display: inline-block;
+    background: #fff3bf;
+    border: 1px solid #f0d264;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-weight: 600;
+    color: var(--fg);
+}
+
+.how-legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    margin: 0 0 16px;
+    font-family: system-ui, sans-serif;
+}
+
+.chip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+.chip-title { display: block; font-weight: 600; color: var(--fg); margin-bottom: 2px; }
+
+.how-qa {
+    font-family: system-ui, sans-serif;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+}
+
+.qa-row { display: flex; align-items: baseline; gap: 10px; font-size: 0.95rem; margin-bottom: 6px; }
+.qa-label {
+    flex-shrink: 0;
+    width: 130px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+}
+.qa-answer { font-weight: 700; color: #2f7a3d; }
+.qa-note { font-size: 0.85rem; color: var(--muted); margin: 8px 0 0; line-height: 1.5; }
+.qa-wrong { color: #b54708; font-weight: 600; }
+
+@media (max-width: 560px) {
+    .qa-row { flex-direction: column; gap: 2px; }
+    .qa-label { width: auto; }
+}
+
 .needles {
     background: #fffaf0;
     border: 1px solid var(--border);
