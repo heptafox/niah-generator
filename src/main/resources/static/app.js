@@ -30,10 +30,10 @@ function groupByLabel(entries) {
 
 // Plain hint for which model context window a size comfortably fits.
 function sizeHint(tokens) {
-    if (tokens <= 8000) return 'fits a small context window';
-    if (tokens <= 32000) return 'fits most chat models';
-    if (tokens <= 128000) return 'needs a large-context model';
-    return 'needs a very large context window';
+    if (tokens <= 8000) return 'Small context window';
+    if (tokens <= 32000) return 'Most chat models';
+    if (tokens <= 128000) return 'Large-context models';
+    return 'Very large context window';
 }
 
 function selectedMode() {
@@ -59,7 +59,7 @@ function renderCatalog(entries) {
 
         const meta = document.createElement('p');
         meta.className = 'meta';
-        meta.textContent = `About ${fmtNum(group.approxPages)} pages · about ${fmtNum(group.approxTokens)} tokens — ${sizeHint(group.approxTokens)}`;
+        meta.textContent = `~${fmtNum(group.approxTokens)} tokens • ${sizeHint(group.approxTokens)}`;
         card.appendChild(meta);
 
         const buttons = document.createElement('div');

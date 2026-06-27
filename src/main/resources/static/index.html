@@ -18,40 +18,37 @@
         <span class="gh-stat" id="gh-stars" title="Stars" hidden>★ <b>0</b></span>
         <span class="gh-stat" id="gh-forks" title="Forks" hidden>⑂ <b>0</b></span>
     </a>
-    <h1>Needle-In-A-Haystack Test Data</h1>
+    <h1>Needle-in-a-Haystack Test Data</h1>
     <p class="subtitle">
-        <em>Pride and Prejudice</em> is a long novel — a big pile of text (the "haystack"). We hide a few
-        <strong>deliberately wrong facts</strong> (the "needles") inside it and spread them out evenly,
-        so the first lands in the early third of the document, the next in the middle, and so on.
-        Then you ask your RAG / LLM system a question and check: does it answer from <strong>this
-        document</strong>, or from what it already learned in training?
+        A long document (<em>Pride and Prejudice</em>, a long novel) acts as the haystack. We inject a few <strong>deliberately incorrect facts</strong>
+        — the needles — at evenly spaced locations throughout the document. Ask your RAG or LLM a question,
+        then verify whether it answers using the document or its pre-trained knowledge.
     </p>
     <p class="subtitle">
-        Example — the model already "knows" <em>The capital of France is Paris</em>. We inject
-        <em>The capital of France is New York</em>. A system that truly reads the document should answer
-        <strong>New York</strong>. If it says Paris, it ignored the document.
+        <strong>Example</strong> — a model already knows <em>The capital of France is Paris</em>. We inject
+        <em>The capital of France is New York</em>. A document-grounded system should answer
+        <strong>New York</strong>. If it answers Paris, it relied on its training instead of the provided document.
     </p>
     <p class="subtitle">
-        Pick a size that fits your context window — the full novel is ~279 pages, often more than you need.
+        Choose a document size that matches your model's context window. The complete novel is approximately 478 pages.
     </p>
     <section class="needles">
         <h2>Injected needles</h2>
-        <p>We split the document into equal parts and drop one different wrong fact into each part.
-            Since every part has its own needle, the answer tells you exactly where in the document
-            your system looked:</p>
+        <p>Each document section contains one unique incorrect fact. This helps identify which part of the
+            document your system actually retrieved. Examples:</p>
         <ul id="needle-list"></ul>
     </section>
     <div class="controls">
         <fieldset class="mode">
             <legend>Needle placement</legend>
             <label><input type="radio" name="mode" value="isolated" checked>
-                <strong>Isolated</strong> — wrong fact sits on its own line, easy to spot (easy test)</label>
+                <strong>Isolated</strong> — the incorrect fact appears on its own line, making retrieval easier</label>
             <label><input type="radio" name="mode" value="embedded">
-                <strong>Embedded</strong> — wrong fact mixed into the surrounding story (lifelike, harder test)</label>
+                <strong>Embedded</strong> — the incorrect fact is blended into the surrounding text, creating a more realistic and challenging retrieval test</label>
         </fieldset>
         <label class="answer-key-toggle">
             <input type="checkbox" id="answer-key">
-            Include answer key (downloads a <code>.zip</code> with the document + <code>manifest.json</code>)
+            Answer key (optional) — downloads a <code>.zip</code> with the document + <code>manifest.json</code> listing the injected needles and their locations
         </label>
     </div>
 </header>
