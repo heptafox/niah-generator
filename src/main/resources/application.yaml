@@ -2,6 +2,13 @@ spring:
   application:
     name: niah-generator
 
+# Expose build version (from build-info) at /actuator/info for the UI footer.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info
+
 niah:
   # Source haystack PDF (loaded internally, NOT served publicly).
   source-pdf: classpath:data/pride-and-prejudice.pdf

@@ -117,9 +117,19 @@ async function loadGitHubStats() {
     } catch { /* offline / rate-limited — just leave the counts hidden */ }
 }
 
+async function loadVersion() {
+    try {
+        const res = await fetch('/actuator/info');
+        if (!res.ok) return;
+        const { build } = await res.json();
+        if (build?.version) document.getElementById('app-version').textContent = `v${build.version}`;
+    } catch { /* actuator unavailable — leave version blank */ }
+}
+
 async function init() {
     renderNeedles();
     loadGitHubStats();
+    loadVersion();
     document.getElementById('answer-key').addEventListener('change', refreshDownloadLinks);
     document.querySelectorAll('input[name="mode"]').forEach(r =>
         r.addEventListener('change', refreshDownloadLinks));
