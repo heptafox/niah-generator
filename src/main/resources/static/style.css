@@ -23,7 +23,36 @@ header, main, footer {
     padding: 0 24px;
 }
 
-header { padding-top: 40px; }
+header { padding-top: 40px; position: relative; }
+
+.github-link {
+    position: absolute;
+    top: 16px;
+    right: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: system-ui, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--fg);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    transition: background 0.15s ease;
+}
+
+.github-link:hover { background: var(--bg); }
+
+.gh-stat {
+    font-size: 0.85rem;
+    color: var(--muted);
+    padding-left: 6px;
+    border-left: 1px solid var(--border);
+}
+.gh-stat b { color: var(--fg); font-weight: 600; }
 
 h1 {
     font-size: 2.2rem;

@@ -77,8 +77,23 @@ function refreshDownloadLinks() {
     });
 }
 
+// ponytail: client-side fetch of GitHub's public API (60 req/hr/IP unauthed) — enough for a dev tool.
+async function loadGitHubStats() {
+    try {
+        const res = await fetch('https://api.github.com/repos/heptafox/niah-generator');
+        if (!res.ok) return;
+        const { stargazers_count, forks_count } = await res.json();
+        for (const [id, n] of [['gh-stars', stargazers_count], ['gh-forks', forks_count]]) {
+            const el = document.getElementById(id);
+            el.querySelector('b').textContent = fmtNum(n);
+            el.hidden = false;
+        }
+    } catch { /* offline / rate-limited — just leave the counts hidden */ }
+}
+
 async function init() {
     renderNeedles();
+    loadGitHubStats();
     document.getElementById('answer-key').addEventListener('change', refreshDownloadLinks);
     document.querySelectorAll('input[name="mode"]').forEach(r =>
         r.addEventListener('change', refreshDownloadLinks));
