@@ -12,9 +12,10 @@
 body {
     margin: 0;
     font-family: Georgia, "Times New Roman", serif;
+    font-size: 18px;
     background: var(--bg);
     color: var(--fg);
-    line-height: 1.55;
+    line-height: 1.6;
 }
 
 header, main, footer {
@@ -163,7 +164,21 @@ main { padding-top: 16px; }
 footer {
     color: var(--muted);
     font-family: system-ui, sans-serif;
-    font-size: 0.85rem;
-    padding: 24px;
+    font-size: 0.9rem;
+    margin-top: 56px;
+    padding: 32px 24px 48px;
+    border-top: 1px solid var(--border);
     text-align: center;
 }
+
+footer h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--fg);
+    margin: 0 0 8px;
+}
+
+footer p { margin: 4px 0; }
+
+footer a { color: var(--accent); font-weight: 600; }
