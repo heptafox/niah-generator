@@ -162,33 +162,6 @@ h1 {
 }
 .chip-title { display: block; font-weight: 600; color: var(--fg); margin-bottom: 2px; }
 
-.how-qa {
-    font-family: system-ui, sans-serif;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px 16px;
-}
-
-.qa-row { display: flex; align-items: baseline; gap: 10px; font-size: 0.95rem; margin-bottom: 6px; }
-.qa-label {
-    flex-shrink: 0;
-    width: 130px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--muted);
-}
-.qa-answer { font-weight: 700; color: #2f7a3d; }
-.qa-note { font-size: 0.85rem; color: var(--muted); margin: 8px 0 0; line-height: 1.5; }
-.qa-wrong { color: #b54708; font-weight: 600; }
-
-@media (max-width: 560px) {
-    .qa-row { flex-direction: column; gap: 2px; }
-    .qa-label { width: auto; }
-}
-
 .needles {
     background: #fffaf0;
     border: 1px solid var(--border);

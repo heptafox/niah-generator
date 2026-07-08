@@ -62,19 +62,14 @@
         </a>
     </div>
     <p class="tagline">
-        Evaluate Retrieval-Augmented Generation (RAG) pipelines, Agentic AI workflows,
-        vector databases, and long-context LLMs using reproducible Needle-in-a-Haystack test datasets.
-    </p>
-    <p class="subtitle">
-        A long document acts as the haystack. We inject intentionally incorrect facts (the needles) at
-        known locations throughout the document. Ask your RAG or long-context LLM a question and verify
-        whether it answers from the retrieved, grounded document or from its pre-trained knowledge — the
-        core of hallucination testing and enterprise AI evaluation.
+        We hide fake facts (the <strong>needles</strong>) in a long document (the <strong>haystack</strong>).
+        If your AI answers with the fake fact, it read the document. If it gives the real answer,
+        it ignored the document and answered from training.
     </p>
     <p class="subtitle example">
-        <strong>Example:</strong> a model knows <em>the capital of France is Paris</em>. We inject
-        <em>the capital of France is New York</em>. A grounded system answers <strong>New York</strong>;
-        if it answers Paris, it relied on training instead of the document.
+        <strong>Example:</strong> the document says <em>the capital of France is New York</em>.
+        Ask <em>"What is the capital of France?"</em> — a grounded system answers
+        <strong>New York</strong>; a hallucinating one answers Paris.
     </p>
 
 </header>
@@ -83,7 +78,7 @@
     <div class="tabs" role="tablist" aria-label="Evaluation mode">
         <button class="tab active" role="tab" id="tab-btn-rag" aria-controls="tab-rag" aria-selected="true" data-tab="rag">
             <span class="tab-title">📥 RAG datasets</span>
-            <span class="tab-desc">Download a document and stuff it into your model's context.
+            <span class="tab-desc">Download a document and paste it into your prompt.
                 PDF · Markdown · DOCX, with an optional answer-key zip.</span>
         </button>
         <button class="tab" role="tab" id="tab-btn-crawl" aria-controls="tab-crawl" aria-selected="false" data-tab="crawl">
@@ -96,7 +91,7 @@
     <!-- RAG tab: downloadable dataset files stuffed into the model's context. -->
     <section class="tab-panel active" id="tab-rag" role="tabpanel" aria-labelledby="tab-btn-rag">
         <h2 class="download-heading">Download Needle-in-a-Haystack Benchmark Datasets</h2>
-        <p class="download-sub">Pick a size that matches your model's context window, download, and stuff it into context.</p>
+        <p class="download-sub">Pick a size that matches your model's context window, download, and paste it into your prompt.</p>
 
         <div class="controls">
             <fieldset class="mode">
@@ -150,11 +145,8 @@
 <section class="docs">
     <section class="how" aria-label="How Needle-in-a-Haystack testing works">
         <h2>How Needle-in-a-Haystack Testing Works</h2>
-        <p>This dataset uses the original <em>Pride and Prejudice</em> novel as the
-            <strong>haystack</strong>. We inject intentionally incorrect facts (the
-            <strong>needles</strong>) into different parts of the document. Your RAG system or
-            crawling agent should answer using these injected facts—not the model's pre-trained
-            knowledge.</p>
+        <p>The haystack is the original <em>Pride and Prejudice</em> novel, with needles
+            injected at known depths throughout:</p>
 
         <pre class="how-example"><code>Original novel text...
 
@@ -177,16 +169,6 @@ Original novel text continues...</code></pre>
             <div class="chip"><span class="chip-title">✅ Expected behavior</span>
                 A grounded system answers using the injected fact, not training data.</div>
         </div>
-
-        <div class="how-qa">
-            <div class="qa-row"><span class="qa-label">Question</span>What is the capital of France?</div>
-            <div class="qa-row"><span class="qa-label">Expected answer</span>
-                <span class="qa-answer">New York</span></div>
-            <p class="qa-note">If your system answers <strong>New York</strong>, it successfully
-                used the document. If it answers
-                <span class="qa-wrong">Paris</span>, it relied on the model's pre-trained knowledge
-                instead of the provided document.</p>
-        </div>
     </section>
 
     <section class="needles" aria-label="Injected needles">
@@ -196,19 +178,6 @@ Original novel text continues...</code></pre>
         <ul id="needle-list"></ul>
     </section>
 </section>
-
-<footer>
-    <h2>Help improve this open-source project</h2>
-    <p>Found a bug? Have an idea for a new dataset or evaluation scenario?</p>
-    <p>Suggestions, bug reports, pull requests, and feature ideas are always welcome.</p>
-    <p class="footer-links">
-        <a href="mailto:heptafoxai@gmail.com">📧 heptafoxai@gmail.com</a>
-        <a href="https://github.com/heptafox/niah-generator" target="_blank" rel="noopener">⭐ Star this project</a>
-        <a href="https://github.com/heptafox/niah-generator/issues/new" target="_blank" rel="noopener">🐛 Report an Issue</a>
-        <a href="https://github.com/heptafox/niah-generator/issues/new?labels=dataset" target="_blank" rel="noopener">💡 Suggest a Dataset</a>
-    </p>
-    <p class="footer-version" id="app-version"></p>
-</footer>
 
 <section class="roadmap" aria-label="Dataset roadmap">
     <h2>Coming Soon</h2>
@@ -237,6 +206,19 @@ Original novel text continues...</code></pre>
     <li>Multiple Context Sizes</li>
     <li>Open Source</li>
 </ul>
+
+<footer>
+    <h2>Help improve this open-source project</h2>
+    <p>Found a bug? Have an idea for a new dataset or evaluation scenario?</p>
+    <p>Suggestions, bug reports, pull requests, and feature ideas are always welcome.</p>
+    <p class="footer-links">
+        <a href="mailto:heptafoxai@gmail.com">📧 heptafoxai@gmail.com</a>
+        <a href="https://github.com/heptafox/niah-generator" target="_blank" rel="noopener">⭐ Star this project</a>
+        <a href="https://github.com/heptafox/niah-generator/issues/new" target="_blank" rel="noopener">🐛 Report an Issue</a>
+        <a href="https://github.com/heptafox/niah-generator/issues/new?labels=dataset" target="_blank" rel="noopener">💡 Suggest a Dataset</a>
+    </p>
+    <p class="footer-version" id="app-version"></p>
+</footer>
 <script src="/app.js"></script>
 </body>
 </html>
