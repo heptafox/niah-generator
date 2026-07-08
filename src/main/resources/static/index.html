@@ -77,12 +77,84 @@
         if it answers Paris, it relied on training instead of the document.
     </p>
 
+</header>
+
+<main>
+    <div class="tabs" role="tablist" aria-label="Evaluation mode">
+        <button class="tab active" role="tab" id="tab-btn-rag" aria-controls="tab-rag" aria-selected="true" data-tab="rag">
+            <span class="tab-title">📥 RAG datasets</span>
+            <span class="tab-desc">Download a document and stuff it into your model's context.
+                PDF · Markdown · DOCX, with an optional answer-key zip.</span>
+        </button>
+        <button class="tab" role="tab" id="tab-btn-crawl" aria-controls="tab-crawl" aria-selected="false" data-tab="crawl">
+            <span class="tab-title">🕷️ Agent Crawl</span>
+            <span class="tab-desc">The haystack lives at a URL — your agent must fetch it itself.
+                HTML page + JSON answer key.</span>
+        </button>
+    </div>
+
+    <!-- RAG tab: downloadable dataset files stuffed into the model's context. -->
+    <section class="tab-panel active" id="tab-rag" role="tabpanel" aria-labelledby="tab-btn-rag">
+        <h2 class="download-heading">Download Needle-in-a-Haystack Benchmark Datasets</h2>
+        <p class="download-sub">Pick a size that matches your model's context window, download, and stuff it into context.</p>
+
+        <div class="controls">
+            <fieldset class="mode">
+                <legend>Needle placement</legend>
+                <label><input type="radio" name="mode-rag" value="isolated" checked>
+                    <strong>🟢 Easy — Isolated.</strong> The injected fact appears on its own line, making retrieval easier.</label>
+                <label><input type="radio" name="mode-rag" value="embedded">
+                    <strong>🔴 Hard — Embedded.</strong> The injected fact is blended naturally into the surrounding text, a more realistic retrieval challenge.</label>
+            </fieldset>
+            <label class="answer-key-toggle">
+                <input type="checkbox" id="answer-key">
+                <span class="answer-key-text">
+                    <span class="answer-key-title">Answer key <span class="optional">(optional)</span></span>
+                    <span class="answer-key-desc">Download a <code>.zip</code> containing the document and a <code>manifest.json</code> file listing every injected needle and its exact location.</span>
+                </span>
+            </label>
+        </div>
+
+        <p id="status-rag">Loading catalog…</p>
+        <div id="catalog-rag" class="catalog-grid"></div>
+    </section>
+
+    <!-- Agent Crawl tab: haystack served at a URL the agent must fetch itself. -->
+    <section class="tab-panel" id="tab-crawl" role="tabpanel" aria-labelledby="tab-btn-crawl" hidden>
+        <h2 class="download-heading">Haystack URLs to Crawl</h2>
+        <p class="download-sub">Copy a URL and hand it to your agent. Bigger pages bury the needle deeper.</p>
+
+        <div class="controls">
+            <fieldset class="mode">
+                <legend>Needle placement</legend>
+                <label><input type="radio" name="mode-crawl" value="isolated" checked>
+                    <strong>🟢 Easy — Isolated.</strong> The injected fact appears on its own line, making it easier to spot.</label>
+                <label><input type="radio" name="mode-crawl" value="embedded">
+                    <strong>🔴 Hard — Embedded.</strong> The injected fact is blended naturally into the surrounding text, a more realistic crawl challenge.</label>
+            </fieldset>
+            <div class="prompt-box">
+                <span class="prompt-label">Prompt template — paste into your agent</span>
+                <div class="url-box">
+                    <code class="url-text" id="prompt-template">Fetch &lt;haystack URL&gt; and answer using only its contents: According to this document, what is the capital of France?</code>
+                    <button class="copy-btn" type="button" data-copy="prompt-template">Copy</button>
+                </div>
+                <span class="prompt-note">Each card below links to a <code>JSON</code> answer key with every needle's question, ground-truth answer, and exact depth — for your evaluation harness.</span>
+            </div>
+        </div>
+
+        <p id="status-crawl">Loading catalog…</p>
+        <div id="catalog-crawl" class="catalog-grid"></div>
+    </section>
+</main>
+
+<section class="docs">
     <section class="how" aria-label="How Needle-in-a-Haystack testing works">
         <h2>How Needle-in-a-Haystack Testing Works</h2>
         <p>This dataset uses the original <em>Pride and Prejudice</em> novel as the
             <strong>haystack</strong>. We inject intentionally incorrect facts (the
-            <strong>needles</strong>) into different parts of the document. Your RAG system should
-            retrieve and answer using these injected facts—not the model's pre-trained knowledge.</p>
+            <strong>needles</strong>) into different parts of the document. Your RAG system or
+            crawling agent should answer using these injected facts—not the model's pre-trained
+            knowledge.</p>
 
         <pre class="how-example"><code>Original novel text...
 
@@ -103,7 +175,7 @@ Original novel text continues...</code></pre>
             <div class="chip"><span class="chip-title">🪡 Needle</span>
                 An intentionally incorrect fact injected into the document.</div>
             <div class="chip"><span class="chip-title">✅ Expected behavior</span>
-                A document-grounded RAG system should answer using the injected fact.</div>
+                A grounded system answers using the injected fact, not training data.</div>
         </div>
 
         <div class="how-qa">
@@ -111,81 +183,19 @@ Original novel text continues...</code></pre>
             <div class="qa-row"><span class="qa-label">Expected answer</span>
                 <span class="qa-answer">New York</span></div>
             <p class="qa-note">If your system answers <strong>New York</strong>, it successfully
-                retrieved information from the document. If it answers
+                used the document. If it answers
                 <span class="qa-wrong">Paris</span>, it relied on the model's pre-trained knowledge
                 instead of the provided document.</p>
         </div>
     </section>
 
-    <section class="needles" aria-label="Injected needles for RAG evaluation">
-        <h2>Injected Needles for RAG Evaluation</h2>
+    <section class="needles" aria-label="Injected needles">
+        <h2>Injected Needles</h2>
         <p>Each document section contains one unique incorrect fact, so you can tell which part your
-            system actually retrieved. Examples:</p>
+            system actually retrieved or crawled. Examples:</p>
         <ul id="needle-list"></ul>
     </section>
-</header>
-
-<main>
-    <div class="tabs" role="tablist" aria-label="Evaluation mode">
-        <button class="tab active" role="tab" id="tab-btn-rag" aria-controls="tab-rag" aria-selected="true" data-tab="rag">
-            📥 RAG datasets
-        </button>
-        <button class="tab" role="tab" id="tab-btn-crawl" aria-controls="tab-crawl" aria-selected="false" data-tab="crawl">
-            🕷️ Agent Crawl
-        </button>
-    </div>
-
-    <!-- RAG tab: downloadable dataset files stuffed into the model's context. -->
-    <section class="tab-panel active" id="tab-rag" role="tabpanel" aria-labelledby="tab-btn-rag">
-        <h2 class="download-heading">Download Needle-in-a-Haystack Benchmark Datasets</h2>
-        <p class="download-sub">For RAG / long-context evaluation — download a dataset and stuff it into your model's context.</p>
-
-        <div class="controls">
-            <fieldset class="mode">
-                <legend>Needle placement</legend>
-                <label><input type="radio" name="mode-rag" value="isolated" checked>
-                    <strong>🟢 Easy — Isolated.</strong> The injected fact appears on its own line, making retrieval easier.</label>
-                <label><input type="radio" name="mode-rag" value="embedded">
-                    <strong>🔴 Hard — Embedded.</strong> The injected fact is blended naturally into the surrounding text, a more realistic retrieval challenge.</label>
-            </fieldset>
-            <label class="answer-key-toggle">
-                <input type="checkbox" id="answer-key">
-                <span class="answer-key-text">
-                    <span class="answer-key-title">Answer key <span class="optional">(optional)</span></span>
-                    <span class="answer-key-desc">Download a <code>.zip</code> containing the document and a <code>manifest.json</code> file listing every injected needle and its exact location.</span>
-                </span>
-            </label>
-        </div>
-
-        <p id="status-rag">Loading catalog…</p>
-        <div id="catalog-rag"></div>
-    </section>
-
-    <!-- Agent Crawl tab: haystack served at a URL the agent must fetch itself. -->
-    <section class="tab-panel" id="tab-crawl" role="tabpanel" aria-labelledby="tab-btn-crawl" hidden>
-        <h2 class="download-heading">Haystack URLs to Crawl</h2>
-        <p class="download-sub">For agent / tool-use evaluation — copy a URL and hand it to your agent. Bigger pages bury the needle deeper.</p>
-
-        <div class="controls">
-            <fieldset class="mode">
-                <legend>Needle placement</legend>
-                <label><input type="radio" name="mode-crawl" value="isolated" checked>
-                    <strong>🟢 Easy — Isolated.</strong> The injected fact appears on its own line, making it easier to spot.</label>
-                <label><input type="radio" name="mode-crawl" value="embedded">
-                    <strong>🔴 Hard — Embedded.</strong> The injected fact is blended naturally into the surrounding text, a more realistic crawl challenge.</label>
-            </fieldset>
-            <p class="answer-key-toggle" style="cursor:default">
-                <span class="answer-key-text">
-                    <span class="answer-key-title">Answer key</span>
-                    <span class="answer-key-desc">Each card links to a <code>JSON</code> answer key listing every injected needle, its question, ground-truth answer, and exact depth — for your evaluation harness.</span>
-                </span>
-            </p>
-        </div>
-
-        <p id="status-crawl">Loading catalog…</p>
-        <div id="catalog-crawl"></div>
-    </section>
-</main>
+</section>
 
 <footer>
     <h2>Help improve this open-source project</h2>

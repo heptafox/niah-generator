@@ -192,21 +192,42 @@ function refreshUrls() {
 
 /* ---------- Tabs ---------- */
 
+// Static copy buttons (e.g. the crawl-tab prompt template): data-copy names the element to copy.
+function initCopyButtons() {
+    document.querySelectorAll('.copy-btn[data-copy]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const el = document.getElementById(btn.dataset.copy);
+            try {
+                await navigator.clipboard.writeText(el.textContent);
+                btn.textContent = 'Copied ✓';
+                setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
+            } catch { btn.textContent = 'Copy failed'; }
+        });
+    });
+}
+
+function selectTab(name) {
+    document.querySelectorAll('.tab').forEach(b => {
+        const on = b.dataset.tab === name;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-selected', on);
+    });
+    document.querySelectorAll('.tab-panel').forEach(p => {
+        const on = p.id === `tab-${name}`;
+        p.classList.toggle('active', on);
+        p.hidden = !on;
+    });
+}
+
 function initTabs() {
     document.querySelectorAll('.tab[data-tab]').forEach(btn => {
         btn.addEventListener('click', () => {
-            document.querySelectorAll('.tab').forEach(b => {
-                const on = b === btn;
-                b.classList.toggle('active', on);
-                b.setAttribute('aria-selected', on);
-            });
-            document.querySelectorAll('.tab-panel').forEach(p => {
-                const on = p.id === `tab-${btn.dataset.tab}`;
-                p.classList.toggle('active', on);
-                p.hidden = !on;
-            });
+            selectTab(btn.dataset.tab);
+            history.replaceState(null, '', `#${btn.dataset.tab}`);
         });
     });
+    // Deep link: /#crawl opens the Agent Crawl tab directly.
+    if (location.hash === '#crawl') selectTab('crawl');
 }
 
 // ponytail: client-side fetch of GitHub's public API (60 req/hr/IP unauthed) — enough for a dev tool.
@@ -235,6 +256,7 @@ async function loadVersion() {
 async function init() {
     renderNeedles();
     initTabs();
+    initCopyButtons();
     loadGitHubStats();
     loadVersion();
     document.getElementById('answer-key').addEventListener('change', refreshDownloadLinks);
