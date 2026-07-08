@@ -3,5 +3,7 @@ Allow: /
 # Haystack pages carry intentionally-wrong facts — keep them out of search indexes.
 # (An agent handed a direct URL still fetches them; these pages also send noindex.)
 Disallow: /haystack/
+# Answer keys and catalog JSON are for tooling, not search results.
+Disallow: /api/
 
 Sitemap: https://niah.heptafox.com/sitemap.xml
