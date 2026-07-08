@@ -307,6 +307,69 @@ main { padding-top: 40px; }
 
 .btn:hover { background: #9c7109; }
 
+/* Tabs (RAG vs Agent Crawl) */
+.tabs {
+    display: flex;
+    gap: 6px;
+    border-bottom: 1px solid var(--border);
+    margin: 8px 0 24px;
+}
+.tab {
+    font-family: system-ui, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--muted);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 10px 16px;
+    margin-bottom: -1px;
+    cursor: pointer;
+}
+.tab:hover { color: var(--fg); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Crawl URL box + copy button */
+.url-box {
+    display: flex;
+    align-items: stretch;
+    gap: 6px;
+    margin: 0 0 14px;
+}
+.url-text {
+    flex: 1;
+    min-width: 0;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.74rem;
+    line-height: 1.4;
+    color: var(--fg);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 9px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+.copy-btn {
+    flex-shrink: 0;
+    font-family: system-ui, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--fg);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0 12px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+.copy-btn:hover { background: var(--bg); }
+
+.btn-secondary { color: var(--accent) !important; background: #fffaf0 !important; border: 1px solid var(--border); }
+.btn-secondary:hover { background: #fdf3df !important; }
+
 footer {
     color: var(--muted);
     font-family: system-ui, sans-serif;

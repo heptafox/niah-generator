@@ -5,7 +5,8 @@ public enum DocFormat {
 
     MD("md", "text/markdown"),
     PDF("pdf", "application/pdf"),
-    DOCX("docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+    DOCX("docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
+    HTML("html", "text/html");
 
     private final String extension;
     private final String mediaType;

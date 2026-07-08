@@ -95,6 +95,24 @@ The `manifest.json` answer key records the `charOffset`, `depthPercent`, questio
 
 ---
 
+## Agent Crawl (second tab)
+
+The UI has two tabs. The **RAG datasets** tab downloads the files above. The **Agent Crawl** tab
+serves the same haystack (same needles, same depths) as a live **HTML page at a URL** — for
+evaluating agents / tool-use pipelines that must *fetch* the page themselves rather than having it
+stuffed into context. Copy a haystack URL, hand it to your agent, and check whether it answered from
+what it crawled or from training data.
+
+| Endpoint | Purpose |
+|---|---|
+| `GET /haystack/{id}?mode=isolated\|embedded` | The crawl target — haystack as an inline HTML page with needles injected. `{id}` is any `html` entry, e.g. `pages-10-html`, `tokens-16k-html`. |
+| `GET /api/catalog/{id}/answer-key?mode=…` | JSON answer key: every needle's `question`, `groundTruthAnswer`, `depthPercent`, and `charOffset`. |
+
+Haystack pages send `noindex,nofollow` and are disallowed in `robots.txt`, so search engines don't
+index the intentionally-wrong facts — but an agent handed a direct URL still fetches them normally.
+
+---
+
 ## Features
 
 **Dataset Generation**
@@ -104,10 +122,11 @@ The `manifest.json` answer key records the `charOffset`, `depthPercent`, questio
 - One distinct needle per document segment
 
 **Output Formats**
-- PDF, Markdown, DOCX
+- PDF, Markdown, DOCX (RAG download tab)
+- Crawlable HTML page served at a URL (Agent Crawl tab)
 
 **Evaluation**
-- Optional answer-key `.zip` with `manifest.json`
+- Optional answer-key `.zip` with `manifest.json` (RAG), or JSON answer key per URL (crawl)
 - Needle `charOffset` and `depthPercent` recorded against delivered body text
 - Standalone Python generator for plain-text haystacks (`scripts/gen_niah.py`)
 

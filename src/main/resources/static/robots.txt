@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+# Haystack pages carry intentionally-wrong facts — keep them out of search indexes.
+# (An agent handed a direct URL still fetches them; these pages also send noindex.)
+Disallow: /haystack/
 
 Sitemap: https://niah.heptafox.com/sitemap.xml
